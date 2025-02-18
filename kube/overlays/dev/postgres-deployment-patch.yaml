@@ -1,0 +1,28 @@
+# kube/overlays/dev/postgres-deployment-patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-db
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: postgres
+          env:
+            # Maybe override local dev password, or additional env if needed
+            - name: POSTGRES_PASSWORD
+              value: "devpassword"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db
+spec:
+  # If you want a NodePort in dev or some override
+  type: NodePort
+  ports:
+    - port: 5432
+      nodePort: 30010
+      protocol: TCP
+      targetPort: 5432

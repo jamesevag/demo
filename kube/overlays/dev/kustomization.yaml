@@ -1,8 +1,13 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: dev
-resources:
-  - ../../base  # This pulls in all resources from your base folder
+# kube/overlays/dev/kustomization.yaml
 
+# Pull in all resources from the base
+resources:
+  - ../../base
+
+# If you want everything in the dev namespace automatically:
+namespace: dev
+
+# If you need patches to override e.g. nodePorts or environment variables:
 patchesStrategicMerge:
-  - backend-patch.yaml
+  - backend-deployment-patch.yaml
+  - postgres-deployment-patch.yaml
