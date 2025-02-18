@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: localhost/backend-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30003
+
+env:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-db:5432/mydatabase"
+  SPRING_DATASOURCE_USERNAME: "admin"
+  SPRING_DATASOURCE_PASSWORD: "password"
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"

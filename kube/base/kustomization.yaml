@@ -1,0 +1,4 @@
+resources:
+  - backend-deployment.yaml
+  - angular-deployment.yaml
+  - postgres-deployment.yaml

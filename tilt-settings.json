@@ -1,0 +1,16 @@
+{
+  "default_registry": "",
+  "watch": {
+    "enabled": true
+  },
+  "log": {
+    "level": "info"
+  },
+  "update_mode": "auto",
+  "hud": {
+    "enabled": true
+  },
+  "analytics": {
+    "enabled": false
+  }
+}

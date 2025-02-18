@@ -1,0 +1,35 @@
+# Database-specific configurations
+postgresql:
+  # Set the database image repository
+  image:
+    repository: postgres
+    tag: "13"  # You can change this to the desired version
+
+  # Set the PostgreSQL database credentials
+  postgresqlPassword: mysecretpassword
+  postgresqlUsername: postgres
+  postgresqlDatabase: mydatabase
+
+  # Configure the number of replicas
+  replicaCount: 1
+
+  # Set resources limits and requests
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+
+  # Enable persistence (optional)
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: "standard"
+
+  # Expose the database as a NodePort service (optional)
+  service:
+    type: NodePort
+    port: 5432
+    nodePort: 30001  # This can be adjusted to your needs

@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend  # ✅ Ensure correct path to backend project
+      dockerfile: Dockerfile
+    image: backend-app:latest
+    container_name: backend-app
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: mysecretpassword
+    ports:
+      - "9090:8080"
+    networks:
+      - my-network
+
+  angular:
+    build:
+      context: ../my-demo-app
+      dockerfile: Dockerfile
+    image: angular-app:latest
+    container_name: angular-app
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8081:80"
+    networks:
+      - my-network
+    volumes:
+      - angular-build:/usr/share/nginx/html
+
+networks:
+  my-network:
+
+volumes:
+  postgres-data:
+  angular-build:
