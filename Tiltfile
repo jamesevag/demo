@@ -21,18 +21,16 @@ local("kind load image-archive backend1.tar --name kind-cluster")
 local("kubectl apply -f kube/base/backend-deployment.yaml")
 local("kubectl rollout restart deployment backend-app")
 
-# Define the Helm chart deployment
-#helm_remote(
-#    chart='bitnami/postgresql',  # Correct Chart Name
-#    repo_url='https://charts.bitnami.com/bitnami',  # Correct Repository URL
-#    namespace='dev',  # Namespace
-#    values="C:/adesso/demo/database/postgresql-multi-database-local.yaml"  # Correct Path to values.yaml file
-#)
+# Define the Helm chart deployment using Helm commands
+local("helm repo add bitnami https://charts.bitnami.com/bitnami")
+local("helm repo update")
+local("helm upgrade --install postgresql bitnami/postgresql -f C:/adesso/demo/database/postgresql-multi-database-local.yaml -n dev")
 
 k8s_yaml(kustomize("C:/adesso/demo/kube/overlays/dev"))
 
+# Update the k8s_resource with correct resource names
 k8s_resource("backend-app", port_forwards=8080)
-#k8s_resource("bitnami/postgresql", port_forwards=5432)
+k8s_resource("postgres-db", port_forwards=5432)  # Updated resource name
 
 watch_file(backend_path + "src/main/java/de/adesso/demo/controller/UserController.java")
 watch_file(backend_path + "src/")
