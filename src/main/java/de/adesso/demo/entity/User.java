@@ -1,13 +1,12 @@
 package de.adesso.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "users") // Define table name
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
     public class User {

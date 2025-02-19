@@ -11,8 +11,8 @@ namespace = "dev"
 # Step 1: Rebuild the jar when source changes.
 local_resource(
     "build-backend",
-    "mvn clean install",  # Adjust if you're using Gradle
-    deps=[backend_path + "src/"],
+    "mvn clean install -Dspring.profiles.active=docker,seeding",  # Activating docker and seeding profiles
+     deps=[backend_path + "src/"],
 )
 
 # Apply Kubernetes manifests for backend app
