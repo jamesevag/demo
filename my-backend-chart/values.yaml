@@ -1,21 +1,44 @@
-replicaCount: 1
+# Backend Application Configuration
+backend:
+  replicaCount: 1
+  image:
+    repository: localhost/backend-app
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 8080
+    nodePort: 30003
+  env:
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgresql:5432/mydatabase"
+    SPRING_DATASOURCE_USERNAME: "admin"
+    SPRING_DATASOURCE_PASSWORD: "password"
+  resources:
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
 
-image:
-  repository: localhost/backend-app
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: NodePort
-  port: 8080
-  nodePort: 30003
-
-env:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-db:5432/mydatabase"
-  SPRING_DATASOURCE_USERNAME: "admin"
-  SPRING_DATASOURCE_PASSWORD: "password"
-
-resources:
-  limits:
-    cpu: "500m"
-    memory: "512Mi"
+# PostgreSQL Configuration
+postgresql:
+  image:
+    repository: postgres
+    tag: "13"
+  postgresqlPassword: mysecretpassword
+  postgresqlUsername: postgres
+  postgresqlDatabase: mydatabase
+  replicaCount: 1
+  resources:
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: "standard"
+  service:
+    type: NodePort
+    port: 5432
+    nodePort: 30001
