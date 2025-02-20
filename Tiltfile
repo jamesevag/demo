@@ -12,7 +12,7 @@ namespace = "dev"
 local_resource(
     "build-backend",
     "mvn clean install -Dspring.profiles.active=docker,seeding",  # Activating docker and seeding profiles
-     deps=[backend_path + "src/"],
+    deps=[backend_path + "src/"],
 )
 
 # Apply Kubernetes manifests for backend app
@@ -32,6 +32,9 @@ k8s_yaml(kustomize("C:/adesso/demo/kube/overlays/dev"))
 # Update the k8s_resource with correct resource names
 k8s_resource("backend-app", port_forwards=8080)
 k8s_resource("postgres-db", port_forwards=5432)
+
+# Ingress resource
+k8s_yaml('C:/adesso/demo/kube/base/ingress.yaml')
 
 watch_file(backend_path + "src/main/java/de/adesso/demo/controller/UserController.java")
 watch_file(backend_path + "src/")

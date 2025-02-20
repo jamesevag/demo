@@ -1,14 +1,15 @@
 # Backend Application Configuration
 backend:
+  service:
+    name: backend-app-service
+    type: NodePort
+    port: 8080
+    nodePort: 30009
   replicaCount: 1
   image:
     repository: localhost/backend-app
     tag: latest
     pullPolicy: IfNotPresent
-  service:
-    type: NodePort
-    port: 8080
-    nodePort: 30003
   env:
     SPRING_DATASOURCE_URL: "jdbc:postgresql://postgresql:5432/mydatabase"
     SPRING_DATASOURCE_USERNAME: "admin"
@@ -42,3 +43,17 @@ postgresql:
     type: NodePort
     port: 5432
     nodePort: 30001
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: myapp.example.com
+      paths:
+        - path: /api/v1/users
+          pathType: Prefix
+  tls:
+    - hosts:
+        - myapp.example.com
+      secretName: my-tls-secret

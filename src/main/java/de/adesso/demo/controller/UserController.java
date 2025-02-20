@@ -3,6 +3,8 @@ package de.adesso.demo.controller;
 
 import de.adesso.demo.entity.User;
 import de.adesso.demo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,9 @@ public class UserController {
     
     private final UserService userService;
 
-
+    @Operation(summary = "Get all users", responses = {
+            @ApiResponse(description = "Successful Operation", responseCode = "200")
+    })
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = userService.getAllUsers();
@@ -34,11 +38,17 @@ public class UserController {
         return new ResponseEntity<>(allUsers,HttpStatus.OK);  // The view resolver maps this to "welcome.html" or "welcome.jsp"
     }
 
+    @Operation(summary = "Creates a new user", responses = {
+            @ApiResponse(description = "Successful Operation", responseCode = "200")
+    })
     @PostMapping("/user/creation")
     public ResponseEntity<Void> createUser(String firstName, String lastName,String email) {
         return new ResponseEntity<>(HttpStatus.CREATED);  // The view resolver maps this to "welcome.html" or "welcome.jsp"
     }
 
+    @Operation(summary = "Deletes a user", responses = {
+            @ApiResponse(description = "Successful Operation", responseCode = "200")
+    })
     @PostMapping("/user/deletion")
     public ResponseEntity<Void> deleteUser(String firstName, String lastName,String email) {
         return new ResponseEntity<>(HttpStatus.CREATED);  // The view resolver maps this to "welcome.html" or "welcome.jsp"

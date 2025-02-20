@@ -62,8 +62,19 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.6.0</version>
+			<version>42.7.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.13</version>
+		</dependency>
+		<!-- Spring Security Dependency in pom.xml -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -81,5 +92,15 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+	<profile>
+		<id>local</id>
+		<properties>
+			<activatedProperties>local</activatedProperties>
+		</properties>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+	</profile>
+	</profiles>
 </project>
