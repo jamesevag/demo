@@ -13,9 +13,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db_init:/docker-entrypoint-initdb.d
+    networks:
+      - demo_network
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ACTIVE_PROFILE: local
+    image: demo_app
     depends_on:
       - postgres
     ports:
@@ -25,6 +32,28 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: newpassword
+    entrypoint:
+      - java
+      - -jar
+      - /app/app.jar
+    networks:
+      - demo_network
+
+  angular-app:
+    build:
+      context: ../my-demo-app
+      dockerfile: Dockerfile
+    image: demo_angular-app
+    ports:
+      - "4200:80"
+    depends_on:
+      - app
+    networks:
+      - demo_network
 
 volumes:
   postgres_data:
+
+networks:
+  demo_network:
+    driver: bridge

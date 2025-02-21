@@ -11,8 +11,8 @@ END IF;
 END
 $$;
 
-CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'devpassword';
-GRANT ALL PRIVILEGES ON DATABASE mydatabase TO postgres;
+--CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'devpassword';
+--GRANT ALL PRIVILEGES ON DATABASE mydatabase TO postgres;
 
 \c mydatabase;
 
