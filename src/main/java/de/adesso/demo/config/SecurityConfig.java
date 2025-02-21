@@ -19,9 +19,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/user/creation").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/user/*/deletion").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/user/*").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

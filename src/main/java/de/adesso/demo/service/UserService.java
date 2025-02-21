@@ -1,7 +1,10 @@
 package de.adesso.demo.service;
 
+import de.adesso.demo.dto.UserDTO;
 import de.adesso.demo.entity.User;
+import de.adesso.demo.mapper.UserMapper;
 import de.adesso.demo.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     /**
      * Get a user by their email address.
@@ -20,8 +24,9 @@ public class UserService {
      * @param email the email address of the user
      * @return an Optional containing the user if found, empty otherwise
      */
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDTO getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.map(userMapper::userToUserDTO).orElse(null);
     }
 
     /**
@@ -30,8 +35,9 @@ public class UserService {
      * @param user the user to be created or updated
      * @return the saved user entity
      */
-    public User saveOrUpdateUser(User user) {
-        return userRepository.save(user);
+    public UserDTO saveOrUpdateUser(User user) {
+        User userSaved=userRepository.save(user);
+        return userMapper.userToUserDTO(userSaved);
     }
 
     /**
@@ -39,8 +45,8 @@ public class UserService {
      *
      * @return a list of all users
      */
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userMapper.usersToUserDTOList(userRepository.findAll());
     }
 
     /**
