@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: init-scripts
           configMap:
-            name: postgres-init-scripts
+            name: init.sql
 ---
 apiVersion: v1
 kind: Service

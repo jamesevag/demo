@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
       args:
         ACTIVE_PROFILE: local
-    image: demo_app
+    image: localhost/demo_app
     depends_on:
       - postgres
     ports:
@@ -43,7 +43,7 @@ services:
     build:
       context: ../my-demo-app
       dockerfile: Dockerfile
-    image: demo_angular-app
+    image: localhost/demo_angular-app
     ports:
       - "4200:80"
     depends_on:

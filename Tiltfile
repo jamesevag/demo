@@ -4,6 +4,7 @@ custom_values_path = "C:/adesso/demo/my-backend-chart/values.yaml"
 
 # Load the Helm remote extension
 load('ext://helm_remote', 'helm_remote')
+local("kubectl create namespace dev --dry-run=client -o yaml | kubectl apply -f -")
 
 allow_k8s_contexts('kind-kind')
 namespace = "dev"
@@ -18,7 +19,7 @@ local_resource(
 # Apply Kubernetes manifests for backend app
 local("podman build -t localhost/backend-app .")
 local("podman image save -o backend1.tar localhost/backend-app")
-local("kind load image-archive backend1.tar --name kind-cluster")
+local("kind load image-archive backend1.tar --name kind-kind-cluster")
 local("kubectl apply -f kube/base/backend-deployment.yaml")
 local("kubectl rollout restart deployment backend-app")
 
