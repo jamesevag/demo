@@ -2,10 +2,9 @@ package de.adesso.demo.service;
 
 import de.adesso.demo.dto.UserDTO;
 import de.adesso.demo.entity.User;
-import de.adesso.demo.mapper.UserMapper;
+import de.adesso.demo.service.mapper.UserMapper;
 import de.adesso.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

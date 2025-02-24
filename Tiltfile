@@ -1,6 +1,10 @@
+
+current_dir = os.getcwd()
+overlay_path = os.path.join(current_dir, "kube", "overlays", "dev")
+
 # Define paths
-backend_path = "C:/adesso/demo/"
-custom_values_path = "C:/adesso/demo/my-backend-chart/values.yaml"
+backend_path = "./"
+custom_values_path = "./my-backend-chart/values.yaml"
 
 # Load the Helm remote extension
 load('ext://helm_remote', 'helm_remote')
@@ -26,16 +30,16 @@ local("kubectl rollout restart deployment backend-app")
 # Define the Helm chart deployment using Helm commands
 local("helm repo add bitnami https://charts.bitnami.com/bitnami")
 local("helm repo update")
-local("helm upgrade --install my-backend-chart ./my-backend-chart -f C:/adesso/demo/my-backend-chart/values.yaml -n dev")
+local("helm upgrade --install my-backend-chart ./my-backend-chart -f ./my-backend-chart/values.yaml -n dev")
 
-k8s_yaml(kustomize("C:/adesso/demo/kube/overlays/dev"))
+k8s_yaml(kustomize(overlay_path))
 
 # Update the k8s_resource with correct resource names
 k8s_resource("backend-app", port_forwards=8080)
 k8s_resource("postgres-db", port_forwards=5432)
 
 # Ingress resource
-k8s_yaml('C:/adesso/demo/kube/base/ingress.yaml')
+k8s_yaml('./kube/base/ingress.yaml')
 
 watch_file(backend_path + "src/main/java/de/adesso/demo/controller/UserController.java")
 watch_file(backend_path + "src/")
