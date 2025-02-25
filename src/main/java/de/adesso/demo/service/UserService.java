@@ -34,8 +34,8 @@ public class UserService {
      * @param user the user to be created or updated
      * @return the saved user entity
      */
-    public UserDTO saveOrUpdateUser(User user) {
-        User userSaved=userRepository.save(user);
+    public UserDTO saveOrUpdateUser(UserDTO  user) {
+        User userSaved=userRepository.save(userMapper.userDTOToUser(user));
         return userMapper.userToUserDTO(userSaved);
     }
 

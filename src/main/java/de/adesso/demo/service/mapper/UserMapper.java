@@ -3,7 +3,6 @@ package de.adesso.demo.service.mapper;
 import de.adesso.demo.dto.UserDTO;
 import de.adesso.demo.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
